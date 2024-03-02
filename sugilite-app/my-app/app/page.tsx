@@ -39,13 +39,13 @@ export default function Home() {
 
   const mintAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    if (!isNaN(Number(inputValue))) {
+    if (!isNaN(Number(inputValue)) && Number(inputValue) >= 0) {
       setMintingAmount(Number(inputValue));
       console.log(inputValue);
     } else {
-      setMintingAmount(0);
+      setMintingAmount(undefined);
     }
-  };
+  };  
 
   // Stake
   const [stakingAmount, setStakingAmount] = useState<number>();
