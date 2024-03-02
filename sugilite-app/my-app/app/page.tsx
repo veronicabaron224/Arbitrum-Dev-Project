@@ -39,11 +39,11 @@ export default function Home() {
 
   const mintAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    if (!isNaN(Number(inputValue)) && Number(inputValue) >= 0) {
+    if (!isNaN(Number(inputValue))) {
       setMintingAmount(Number(inputValue));
       console.log(inputValue);
     } else {
-      setMintingAmount(undefined);
+      setMintingAmount(0);
     }
   };  
 
