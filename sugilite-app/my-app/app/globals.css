@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --pink: 253, 185, 200;
+  --purple: 173, 150, 197;
+  --indigo: 94, 138, 203;
+  --button-color: #795695;
+  --navy-blue: #001f3f;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.animate-gradient {
+  animation: gradientAnimation 5s infinite alternate-reverse;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+.bg-gradient-to-b {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--pink)) 30%,
+    rgb(var(--purple)) 50%,
+    rgb(var(--indigo)) 70%
+  );
+}
+
+.font-rubik {
+  font-family: 'Rubik', sans-serif;
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+.bg-button-color {
+  background-color: var(--button-color);
+}
+
+p {
+  padding-top: 10px;
+  font-size: smaller;
+}
