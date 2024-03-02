@@ -20,7 +20,6 @@ export default function Home() {
   const [mintingAmount, setMintingAmount] = useState<number>();
   const [submitted, setSubmitted] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
-
   
   const mintCoin = async () => {
     const { ethereum } = window as any;
@@ -46,7 +45,7 @@ export default function Home() {
     } else {
       setMintingAmount(0);
     }
-  };  
+  };
 
   // Stake
   const [stakingAmount, setStakingAmount] = useState<number>();
