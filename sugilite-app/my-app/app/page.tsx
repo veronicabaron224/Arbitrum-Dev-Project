@@ -26,23 +26,16 @@ export default function Home() {
     const provider = new BrowserProvider(ethereum);
     const signer = await provider.getSigner();
     const contract = getContract(signer);
-
-    // Check if mintingAmount is greater than 0
-    if (mintingAmount > 0) {
-      try {
-        const tx = await contract.mint(signer, mintingAmount);
-        await tx.wait();
-        setSubmitted(true);
-        setTransactionHash(tx.hash);
-      } catch (e: any) {
-        const decodedError = contract.interface.parseError(e.data);
-        alert(`Minting failed: ${decodedError?.args}`);
-      }
-    } else {
-      alert("Error: Invalid input. Amount must be greater than 0.");
+    try {
+      const tx = await contract.mint(signer, mintingAmount);
+      await tx.wait();
+      setSubmitted(true);
+      setTransactionHash(tx.hash);
+    } catch (e: any) {
+      const decodedError = contract.interface.parseError(e.data);
+      alert(`Minting failed: ${decodedError?.args}`);
     }
   };
-
   const mintAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (!isNaN(Number(inputValue))) {
@@ -70,7 +63,6 @@ export default function Home() {
       alert(`Minting failed: ${decodedError?.args}`);
     }
   };
-  
   const stakeAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (!isNaN(Number(inputValue))) {
