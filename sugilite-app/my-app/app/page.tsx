@@ -20,6 +20,7 @@ export default function Home() {
   const [mintingAmount, setMintingAmount] = useState<number>();
   const [submitted, setSubmitted] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
+
   
   const mintCoin = async () => {
     const { ethereum } = window as any;
