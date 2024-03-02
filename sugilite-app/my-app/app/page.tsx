@@ -36,6 +36,7 @@ export default function Home() {
       alert(`Minting failed: ${decodedError?.args}`);
     }
   };
+
   const mintAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (!isNaN(Number(inputValue))) {
@@ -63,6 +64,7 @@ export default function Home() {
       alert(`Minting failed: ${decodedError?.args}`);
     }
   };
+  
   const stakeAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (!isNaN(Number(inputValue))) {
