@@ -15,6 +15,7 @@ interface PageDesignProps {
     closeNotification: () => void;
     transactionHistory: string[];
     importToken: () => void;
+    loading: boolean;
   }
   
   const PageDesign: React.FC<PageDesignProps> = (props) => {
@@ -32,6 +33,7 @@ interface PageDesignProps {
       closeNotification,
       transactionHistory,
       importToken,
+      loading,
     } = useFunctions();
 
   return (
@@ -128,6 +130,12 @@ interface PageDesignProps {
             <button onClick={closeNotification} className="mt-2 text-sm underline cursor-pointer">
               Close
             </button>
+          </div>
+        )}
+
+        {loading && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-button-color"></div>
           </div>
         )}
       </div>

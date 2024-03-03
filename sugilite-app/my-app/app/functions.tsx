@@ -10,6 +10,7 @@ const useFunctions = () => {
   const [transactionHash, setTransactionHash] = useState("");
   const [notification, setNotification] = useState<string | null>(null);
   const [transactionHistory, setTransactionHistory] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const connectWallet = async () => {
     const { ethereum } = window as any;
@@ -30,15 +31,17 @@ const useFunctions = () => {
     const contract = getContract(signer);
   
     try {
+      setLoading(true);
       const tx = await contract.mint(signer, mintingAmount);
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
-  
       updateTransactionHistory(tx.hash);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Minting failed: ${decodedError?.args}`);
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -58,15 +61,17 @@ const useFunctions = () => {
     const contract = getContract(signer);
   
     try {
+      setLoading(true);
       const tx = await contract.stake(stakingAmount);
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
-  
       updateTransactionHistory(tx.hash);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Staking failed: ${decodedError?.args}`);
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -86,15 +91,17 @@ const useFunctions = () => {
     const contract = getContract(signer);
   
     try {
+      setLoading(true);
       const tx = await contract.withdraw();
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
-  
       updateTransactionHistory(tx.hash);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Withdrawal failed: ${decodedError?.args}`);
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -146,6 +153,7 @@ const useFunctions = () => {
     closeNotification,
     transactionHistory,
     importToken,
+    loading,
   };
 };
 

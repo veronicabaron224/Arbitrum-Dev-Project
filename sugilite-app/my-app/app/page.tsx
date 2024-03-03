@@ -18,6 +18,7 @@ const Home = () => {
     closeNotification,
     transactionHistory,
     importToken,
+    loading,
   } = useFunctions();
 
   return (
@@ -35,6 +36,7 @@ const Home = () => {
       closeNotification={closeNotification}
       transactionHistory={transactionHistory}
       importToken={importToken}
+      loading={loading}
     />
   );
 };
