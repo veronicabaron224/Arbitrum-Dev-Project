@@ -10,6 +10,7 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [transactionHash, setTransactionHash] = useState("");
   const [stakingAmount, setStakingAmount] = useState<number>();
+  const [notification, setNotification] = useState<string | null>(null);
 
   const connectWallet = async () => {
     const { ethereum } = window as any;
@@ -90,6 +91,16 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    if (submitted && transactionHash) {
+      setNotification(`Transaction successful! Minted/staked amount: ${mintingAmount || stakingAmount}`);
+    }
+  }, [submitted, transactionHash, mintingAmount, stakingAmount]);
+
+  const closeNotification = () => {
+    setNotification(null);
+  };
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-300 via-purple-300 to-indigo-500 animate-gradient">
       <div className="bg-white rounded p-8 shadow-2xl text-navy-blue">
@@ -158,6 +169,16 @@ export default function Home() {
           </button>
           <p>Please wait at least 15 seconds before withdrawing.</p>
         </div>
+
+        {/* Notification */}
+        {notification && (
+          <div className="absolute top-4 right-4 bg-green-500 text-white p-4 rounded-md">
+            <p>{notification}</p>
+            <button onClick={closeNotification} className="mt-2 text-sm underline cursor-pointer">
+              Close
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );

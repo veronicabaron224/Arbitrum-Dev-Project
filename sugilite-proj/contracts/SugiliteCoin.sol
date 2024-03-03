@@ -19,19 +19,19 @@ contract SugiliteCoin is ERC20, Ownable {
     function mint(address to, uint256 amount) external {
         require(amount > 0, "Amount must be greater than 0.");
         
-        uint256 adjustedAmount = amount * 1e18;
-        _mint(to, adjustedAmount);
+        uint256 newAmount = amount * 1e18;
+        _mint(to, newAmount);
     }
 
     function stake(uint256 amount) external {
-        uint256 adjustedAmount = amount * 1e18;
+        uint256 newAmount = amount * 1e18;
 
-        require(adjustedAmount > 0, "Cannot stake 0 tokens.");
-        require(balanceOf(msg.sender) >= adjustedAmount, "Insufficient balance.");
+        require(newAmount > 0, "Cannot stake 0 tokens.");
+        require(balanceOf(msg.sender) >= newAmount, "Insufficient balance.");
 
-        _stakes[msg.sender] += adjustedAmount;
+        _stakes[msg.sender] += newAmount;
         _lastStakeTimestamp[msg.sender] = block.timestamp;
-        _transfer(msg.sender, address(this), adjustedAmount);
+        _transfer(msg.sender, address(this), newAmount);
     }
 
     function withdraw() external {
