@@ -14,8 +14,6 @@ interface PageDesignProps {
     notification: string | null;
     closeNotification: () => void;
     transactionHistory: string[];
-    showTransactions: boolean;
-    toggleTransactionHistory: () => void;
     importToken: () => void;
   }
   
@@ -33,8 +31,6 @@ interface PageDesignProps {
       notification,
       closeNotification,
       transactionHistory,
-      showTransactions,
-      toggleTransactionHistory,
       importToken,
     } = useFunctions();
 
@@ -54,12 +50,6 @@ interface PageDesignProps {
             {walletKey !== "" ? walletKey : " Connect Wallet"}
           </button>
           <button
-            onClick={() => toggleTransactionHistory()}
-            className="p-3 bg-button-color text-white rounded hover:bg-navy-blue transition-colors font-rubik font-bold"
-          >
-            {showTransactions ? "Hide Transactions" : "View Transactions"}
-          </button>
-          <button
             onClick={importToken}
             className="p-3 bg-button-color text-white rounded hover:bg-navy-blue transition-colors font-rubik font-bold"
           >
@@ -68,7 +58,7 @@ interface PageDesignProps {
         </div>
 
         {/* Transaction History section */}
-        {showTransactions && transactionHistory.length > 0 && (
+        {transactionHistory.length > 0 && (
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-2">Transaction History</h3>
             <ul className="list-disc list-inside">

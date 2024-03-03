@@ -17,8 +17,6 @@ const Home = () => {
     notification,
     closeNotification,
     transactionHistory,
-    showTransactions,
-    toggleTransactionHistory,
     importToken,
   } = useFunctions();
 
@@ -36,8 +34,6 @@ const Home = () => {
       notification={notification}
       closeNotification={closeNotification}
       transactionHistory={transactionHistory}
-      showTransactions={showTransactions}
-      toggleTransactionHistory={toggleTransactionHistory}
       importToken={importToken}
     />
   );

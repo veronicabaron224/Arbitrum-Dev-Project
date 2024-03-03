@@ -10,7 +10,6 @@ const useFunctions = () => {
   const [transactionHash, setTransactionHash] = useState("");
   const [notification, setNotification] = useState<string | null>(null);
   const [transactionHistory, setTransactionHistory] = useState<string[]>([]);
-  const [showTransactions, setShowTransactions] = useState(false);
 
   const connectWallet = async () => {
     const { ethereum } = window as any;
@@ -20,17 +19,23 @@ const useFunctions = () => {
     setWalletKey(accounts[0]);
   };
 
+  const updateTransactionHistory = (transaction: string) => {
+    setTransactionHistory(prevHistory => [...prevHistory, transaction]);
+  };
+
   const mintCoin = async () => {
     const { ethereum } = window as any;
     const provider = new BrowserProvider(ethereum);
     const signer = await provider.getSigner();
     const contract = getContract(signer);
-
+  
     try {
       const tx = await contract.mint(signer, mintingAmount);
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
+  
+      updateTransactionHistory(tx.hash);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Minting failed: ${decodedError?.args}`);
@@ -51,12 +56,14 @@ const useFunctions = () => {
     const provider = new BrowserProvider(ethereum);
     const signer = await provider.getSigner();
     const contract = getContract(signer);
-
+  
     try {
       const tx = await contract.stake(stakingAmount);
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
+  
+      updateTransactionHistory(tx.hash);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Staking failed: ${decodedError?.args}`);
@@ -77,28 +84,18 @@ const useFunctions = () => {
     const provider = new BrowserProvider(ethereum);
     const signer = await provider.getSigner();
     const contract = getContract(signer);
-
+  
     try {
       const tx = await contract.withdraw();
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
+  
+      updateTransactionHistory(tx.hash);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Withdrawal failed: ${decodedError?.args}`);
     }
-  };
-
-  const toggleTransactionHistory = () => {
-    if (showTransactions) {
-      setTransactionHistory([]);
-    } else {
-      const mockTransactionHistory = [
-        "No transaction history to show",
-      ];
-      setTransactionHistory(mockTransactionHistory);
-    }
-    setShowTransactions(!showTransactions);
   };
 
   useEffect(() => {
@@ -148,8 +145,6 @@ const useFunctions = () => {
     notification,
     closeNotification,
     transactionHistory,
-    showTransactions,
-    toggleTransactionHistory,
     importToken,
   };
 };
