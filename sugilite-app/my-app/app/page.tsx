@@ -11,6 +11,8 @@ export default function Home() {
   const [transactionHash, setTransactionHash] = useState("");
   const [stakingAmount, setStakingAmount] = useState<number>();
   const [notification, setNotification] = useState<string | null>(null);
+  const [transactionHistory, setTransactionHistory] = useState<string[]>([]);
+  const [showTransactions, setShowTransactions] = useState(false);
 
   const connectWallet = async () => {
     const { ethereum } = window as any;
@@ -101,6 +103,53 @@ export default function Home() {
     setNotification(null);
   };
 
+  const viewTransactions = () => {
+    const mockTransactionHistory = [
+      "Minted 100 SGC - TransactionHash1",
+      "Staked 50 SGC - TransactionHash2",
+      "Withdrawn 30 SGC - TransactionHash3",
+    ];
+    setTransactionHistory(mockTransactionHistory);
+  };
+
+  const toggleTransactionHistory = () => {
+    if (showTransactions) {
+      setTransactionHistory([]);
+    } else {
+      const mockTransactionHistory = [
+        "Minted 100 SGC - TransactionHash1",
+        "Staked 50 SGC - TransactionHash2",
+        "Withdrawn 30 SGC - TransactionHash3",
+      ];
+      setTransactionHistory(mockTransactionHistory);
+    }
+    setShowTransactions(!showTransactions);
+  };
+
+  const importToken = async() => {
+    const {ethereum} = window as any;
+    const tokenAddress = "0x68a8651D7F362cB92516F6f2359fEA3aA8e67459";
+    const tokenSymbol = "SGC";
+    const tokenDecimal = 18;
+
+    try{
+      const wasAdded = await ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: tokenAddress,
+            symbol: tokenSymbol,
+            decimals: tokenDecimal,
+          },
+        },
+      });
+    }
+    catch(error){
+      console.log(error);
+    }
+  };
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-300 via-purple-300 to-indigo-500 animate-gradient">
       <div className="bg-white rounded p-8 shadow-2xl text-navy-blue">
@@ -108,7 +157,7 @@ export default function Home() {
           SUGILITECOIN: Mint and Stake
         </p>
 
-        {/* Wallet button*/}
+        {/* Wallet, View/Hide Transactions, and Import buttons*/}
         <div className="mb-6 flex flex-col items-center md:flex-row md:items-center md:justify-center space-y-4 md:space-y-0 md:space-x-4">
           <button
             onClick={() => connectWallet()}
@@ -116,7 +165,31 @@ export default function Home() {
           >
             {walletKey !== "" ? walletKey : " Connect Wallet"}
           </button>
+          <button
+            onClick={() => toggleTransactionHistory()}
+            className="p-3 bg-button-color text-white rounded hover:bg-navy-blue transition-colors font-rubik font-bold"
+          >
+            {showTransactions ? "Hide Transactions" : "View Transactions"}
+          </button>
+          <button
+            onClick={importToken}
+            className="p-3 bg-button-color text-white rounded hover:bg-navy-blue transition-colors font-rubik font-bold"
+          >
+            Import Token
+          </button>
         </div>
+
+        {/* Transaction History section */}
+        {showTransactions && transactionHistory.length > 0 && (
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-2">Transaction History</h3>
+            <ul className="list-disc list-inside">
+              {transactionHistory.map((transaction, index) => (
+                <li key={index}>{transaction}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Minting and Staking input fields and buttons */}
         <div className="mb-8 flex flex-col items-center md:flex-row md:items-center md:justify-center space-y-4 md:space-y-0 md:space-x-4">
